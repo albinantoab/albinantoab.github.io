@@ -12,7 +12,7 @@ import { setFavorite } from '../../store/actions/ListingActions';
 
 const Details = (props) => {
   const data = useSelector(state => state.details.data);
-  const showDetailsLoader = useSelector(state => state.list.showDetailsLoader);
+  const showDetailsLoader = useSelector(state => state.details.showDetailsLoader);
   const imdbID = props.match.params.id;
   const favorites = useSelector(state => state.list.favorites);
   const existInObj = searchInArrayObj('imdbID', imdbID, favorites);
