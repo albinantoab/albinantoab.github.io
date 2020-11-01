@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter path='/'>
         <Navbar />
         <Switch>
           <Route path="/details/:id" component={LoadableDetails} exact />

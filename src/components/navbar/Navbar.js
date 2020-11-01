@@ -1,4 +1,5 @@
 import { FormControl, Nav, Navbar, Form, Button, NavDropdown, } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { useState } from 'react';
 import { fetchList } from '../../store/actions/ListingActions';
@@ -10,7 +11,9 @@ const NavBar = ({ fetchList }) => {
     <Navbar expand="md" collapseOnSelect sticky="top" bg="dark" variant="dark">
       <Navbar.Brand href="/">FilmyApp</Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link href="/favorites">Favorites</Nav.Link>
+        <Link to={ "/favorites"}>
+          <Nav.Link href="/favorites">Favorites</Nav.Link>
+        </Link>
         <NavDropdown title="Type" id="collasible-nav-dropdown">
           <NavDropdown.Item onClick={() => fetchList('movie', 1, search)} >Movie</NavDropdown.Item>
           <NavDropdown.Item onClick={() => fetchList('series', 1, search)} >Series</NavDropdown.Item>
