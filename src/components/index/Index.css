@@ -1,0 +1,18 @@
+.container > .navbar{
+  margin-bottom: 30px;
+}
+
+.index-main-container{
+  margin-top: 75px;
+}
+
+.ls-load-more{
+  margin: auto;
+  height: 30px;
+  margin-bottom: 40px;
+  width: 150px;
+  text-align: center;
+  background-color: #424242;
+  line-height: 29px;
+  cursor: pointer;
+}
