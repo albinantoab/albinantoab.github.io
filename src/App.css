@@ -1,0 +1,49 @@
+.line {
+  display: flex;
+  flex-direction: row;
+  height: 24px;
+}
+
+.class-body {
+  margin-left: 1rem;
+}
+
+.keywords {
+  color: #5e81ac;
+}
+
+.properties {
+  color: var(--primary);
+  margin-left: 0.5rem;
+}
+
+.comments {
+  color: #808080;
+}
+
+.types {
+  color: #81a1c1;
+  margin-left: 0.5rem;
+}
+
+.curly-braces {
+  color: #81a1c1;
+}
+
+.curly-braces-open {
+  margin-left: 0.5rem;
+}
+
+.symbols {
+  color: #676b72;
+}
+
+.equal-sign {
+  color: #daa2cf;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.value {
+  color: #bf616a;
+}
