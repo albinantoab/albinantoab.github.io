@@ -56,7 +56,7 @@ const skills = [
     name: "Javascript",
     icon: JavascriptIcon,
     hoverColor: "hover:text-[#F0DB4F]",
-    link: "https://www.javascript.com/",
+    link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
   },
   {
     name: "Node JS",
@@ -86,23 +86,24 @@ const skills = [
     name: "HTML",
     icon: HTMLIcon,
     hoverColor: "hover:text-[#E44D26]",
-    link: "https://www.w3.org/html/",
+    link: "https://developer.mozilla.org/en-US/docs/Web/HTML",
   },
   {
     name: "CSS",
     icon: CSSIcon,
     hoverColor: "hover:text-[#1572B6]",
-    link: "https://www.w3.org/Style/CSS/Overview.en.html",
+    link: "https://developer.mozilla.org/en-US/docs/Web/CSS",
   },
 ];
 
 export default function Home() {
   return (
     <PageContainer>
-      <section className="flex flex-col items-center justify-center gap-2 h-full relative">
+      <section id="main" className="flex flex-col items-center justify-center gap-2 min-h-screen relative w-full">
         <h1 className="text-4xl font-bold">Albin Anto</h1>
-        <p className="text-sm text-gray-500 tracking-[0.08rem] text-center">
-          Engineering Lead • Crafting Frontend & Mobile Experiences • Product-Focused Engineer
+        <p className="text-sm text-muted-foreground tracking-[0.08rem] text-center">
+          Engineering Lead • Crafting Frontend & Mobile Experiences •
+          Product-Focused Engineer
         </p>
 
         {/* Socials */}
@@ -114,7 +115,7 @@ export default function Home() {
               rel="noopener noreferrer"
               key={social.name}
             >
-              <social.icon className="w-6 h-6 text-gray-300 hover:text-primary transition-colors duration-300" />
+              <social.icon className="w-6 h-6 text-gray-700 hover:text-primary purple-glow-icon" />
             </a>
           ))}
         </div>
@@ -124,18 +125,41 @@ export default function Home() {
           {skills.map((skill) => {
             const IconComponent = skill.icon;
             return (
-              <div key={skill.name} className="cursor-pointer p-1.5" title={skill.name}>
+              <div
+                key={skill.name}
+                className={cn(`cursor-pointer p-4 text-gray-300 md:text-gray-800 `, skill.hoverColor)}
+                title={skill.name}
+              >
                 <a href={skill.link} target="_blank" rel="noopener noreferrer">
                   <IconComponent
-                    className={cn(
-                      `w-4 h-4 text-gray-300 transition-colors duration-300`,
-                      skill.hoverColor
-                    )}
+                    className={`w-4 h-4transition-colors duration-300`}
                   />
                 </a>
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Placeholder sections for navigation */}
+      <section id="experience" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-4">Experience</h2>
+          <p className="text-muted-foreground">Experience section coming soon...</p>
+        </div>
+      </section>
+
+      <section id="projects" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-4">Projects</h2>
+          <p className="text-muted-foreground">Projects section coming soon...</p>
+        </div>
+      </section>
+
+      <section id="about" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-4">About</h2>
+          <p className="text-muted-foreground">About section coming soon...</p>
         </div>
       </section>
     </PageContainer>

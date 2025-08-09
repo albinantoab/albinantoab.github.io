@@ -7,48 +7,62 @@ interface Circle {
 }
 
 const PageContainer = ({ children }: { children: React.ReactNode }) => {
-  // Fixed circles in top-right and bottom-left areas
+  // Shuffled circles positioned around the edges with varied sizes
   const circles: Circle[] = [
-    // Top-right area circles
     {
       id: 1,
-      x: 75,
-      y: 10,
-      size: 400,
-      color: '#E9D5FF' // Muted purple
+      x: 8,
+      y: 68,
+      size: 320,
+      color: '#C084FC' // Vibrant pink-purple
     },
     {
       id: 2,
       x: 85,
-      y: 25,
-      size: 300,
-      color: '#EBF8FF' // Muted blue
+      y: 15,
+      size: 390,
+      color: '#3B82F6' // Vibrant blue
     },
-    // Bottom-left area circles
     {
       id: 3,
-      x: 15,
-      y: 75,
-      size: 450,
-      color: '#BFDBFE' // Muted blue
+      x: 92,
+      y: 80,
+      size: 220,
+      color: '#1E40AF' // Deep vibrant blue
     },
     {
       id: 4,
-      x: 5,
-      y: 85,
-      size: 350,
-      color: '#DDD6FE' // Muted purple
+      x: 18,
+      y: 5,
+      size: 300,
+      color: '#A855F7' // Intense pink-purple
+    },
+    {
+      id: 5,
+      x: 95,
+      y: 45,
+      size: 460,
+      color: '#8B5CF6' // Rich purple
+    },
+    {
+      id: 6,
+      x: 12,
+      y: 140,
+      size: 340,
+      color: '#C084FC' // Vibrant pink-purple
     }
   ];
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen min-h-screen overflow-x-hidden">
       {/* Background with random circles */}
       <div className="fixed inset-0 w-full h-full">
         {circles.map((circle) => (
           <div
             key={circle.id}
-            className="absolute rounded-full opacity-70"
+            className={`absolute rounded-full opacity-70 ${
+              circle.id > 2 ? 'hidden md:block' : ''
+            }`}
             style={{
               left: `${circle.x}%`,
               top: `${circle.y}%`,
@@ -62,10 +76,16 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       {/* Frosted glass overlay */}
-      <div className="fixed inset-0 w-full h-full backdrop-blur-3xl bg-white/20" />
+      <div 
+        className="fixed inset-0 w-full h-full backdrop-blur-xl bg-black/40" 
+        style={{
+          backdropFilter: 'blur(100px) saturate(150%) contrast(110%)',
+          WebkitBackdropFilter: 'blur(100px) saturate(150%) contrast(110%)',
+        }}
+      />
 
       {/* Content container */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full max-w-6xl mx-auto px-4">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
         {children}
       </div>
     </div>
