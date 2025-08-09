@@ -102,8 +102,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center gap-2 h-full relative">
         <h1 className="text-4xl font-bold">Albin Anto</h1>
         <p className="text-sm text-gray-500 tracking-[0.08rem] text-center">
-          Engineering Lead • Frontend & Mobile Specialist • Product Engineering
-          Enthusiast
+          Engineering Lead • Crafting Frontend & Mobile Experiences • Product-Focused Engineer
         </p>
 
         {/* Socials */}
