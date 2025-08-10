@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+// import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ExperienceCard {
@@ -20,7 +20,7 @@ const experienceData: ExperienceCard[] = [
     title: "Senior Frontend Engineer",
     company: "Appsmith",
     location: "Bengaluru",
-    duration: "July 2021 - Present (3.5 years)",
+    duration: "July 2021 - April 2025 (3.9 years)",
     description: [
       "Architected and implemented a scalable design system leveraging React and TypeScript, accelerating development timelines by 30% and enhancing code maintainability.",
       "Enhanced accessibility and theming of platform components, enabling enterprise customisation and driving measurable improvements in revenue and user satisfaction.",
