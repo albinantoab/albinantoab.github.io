@@ -87,6 +87,8 @@
     font-family: var(--font-manrope), sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
+    letter-spacing: 0.07rem;
+    font-weight: 300;
   }
 }
 
