@@ -122,7 +122,7 @@ export const Header = ({ onClickCallback }: HeaderProps) => {
         className={cn(
           "flex items-center justify-between gap-3 sm:gap-5 px-2 sm:px-3 py-2 rounded-md transition-all duration-300 ease-in-out min-w-0",
           isScrolled
-            ? "backdrop-blur-xl bg-white/5 border border-white/20 shadow-2xl"
+            ? "backdrop-blur-xl bg-white/5 border border-white/20 shadow-xl"
             : "backdrop-blur-md"
         )}
         style={{
