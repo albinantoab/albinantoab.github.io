@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -97,6 +97,10 @@ const experienceData: ExperienceCard[] = [
 
 export function Experience() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const nextCard = () => {
     setCurrentIndex((prev) => (prev + 1) % experienceData.length);
@@ -104,6 +108,70 @@ export function Experience() {
 
   const prevCard = () => {
     setCurrentIndex((prev) => (prev - 1 + experienceData.length) % experienceData.length);
+  };
+
+  // Touch/Swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50; // Minimum swipe distance to trigger navigation
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        // Swiped left - go to next
+        nextCard();
+      } else {
+        // Swiped right - go to previous
+        prevCard();
+      }
+    }
+    
+    setIsDragging(false);
+    setStartX(0);
+    setCurrentX(0);
+  };
+
+  // Mouse drag handlers for desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextCard();
+      } else {
+        prevCard();
+      }
+    }
+    
+    setIsDragging(false);
+    setStartX(0);
+    setCurrentX(0);
   };
 
   useEffect(() => {
@@ -122,48 +190,53 @@ export function Experience() {
   const currentExperience = experienceData[currentIndex];
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-20 px-4 h-full flex flex-col justify-center">
+    <div className="w-full max-w-4xl mx-auto mt-16 sm:mt-24 px-2 sm:px-4 h-full flex flex-col justify-center">
       {/* Main Content Area */}
       <div className="flex items-center relative">
-        {/* Navigation Buttons - Outside Card */}
-        {/* <button
-          onClick={prevCard}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 -translate-x-1/2"
-          aria-label="Previous experience"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-
-        <button
-          onClick={nextCard}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 translate-x-1/2"
-          aria-label="Next experience"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button> */}
-
         {/* Experience Card */}
-        <div className="w-full mx-16">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl h-[calc(100vh-200px)] flex flex-col">
+        <div className="w-full mx-2 sm:mx-8">
+          <div
+            ref={cardRef}
+            className="bg-black/30 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-2xl h-[calc(100dvh-140px)] sm:h-[calc(100vh-200px)] flex flex-col cursor-grab active:cursor-grabbing select-none sm:bg-black/20"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
             {/* Header - Fixed */}
-            <div className="flex-shrink-0 mb-6">
-              <h3 className="text-xl font-bold mb-2">{currentExperience.title}</h3>
-              <div className="flex flex-wrap items-center gap-2 text-muted-foreground mb-2">
-                <span className="font-semibold text-primary text-sm">{currentExperience.company}</span>
-                <span>•</span>
-                <span className="text-sm">{currentExperience.location}</span>
-                <span>•</span>
-                <span className="text-sm">{currentExperience.duration}</span>
+            <div className="flex-shrink-0 mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-bold mb-2">
+                {currentExperience.title}
+              </h3>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 text-muted-foreground mb-2">
+                <span className="font-semibold text-primary text-xs sm:text-sm">
+                  {currentExperience.company}
+                </span>
+                <span className="hidden sm:inline">•</span>
+                <span className="text-xs sm:text-sm">
+                  {currentExperience.location}
+                </span>
+                <span className="hidden sm:inline">•</span>
+                <span className="text-xs sm:text-sm">
+                  {currentExperience.duration}
+                </span>
               </div>
             </div>
 
             {/* Description - Scrollable */}
-            <div className="flex-1 overflow-y-auto mb-6 pr-2">
-              <ul className="space-y-3">
+            <div className="flex-1 overflow-y-auto mb-4 sm:mb-6 pr-1 sm:pr-2">
+              <ul className="space-y-2 sm:space-y-3">
                 {currentExperience.description.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-primary mt-1.5 flex-shrink-0">•</span>
-                    <span className="text-sm leading-relaxed">{item}</span>
+                  <li key={index} className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-primary mt-1 sm:mt-1.5 flex-shrink-0 text-xs sm:text-sm">
+                      •
+                    </span>
+                    <span className="text-xs sm:text-sm leading-relaxed">
+                      {item}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -171,11 +244,11 @@ export function Experience() {
 
             {/* Technologies - Fixed */}
             <div className="flex-shrink-0">
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1 sm:gap-2">
                 {currentExperience.technologies.map((tech, index) => (
                   <span
                     key={index}
-                    className="px-2 py-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-[10px] font-medium"
+                    className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-[8px] sm:text-[10px] font-medium"
                   >
                     {tech}
                   </span>
@@ -187,13 +260,13 @@ export function Experience() {
       </div>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 gap-2 flex-shrink-0">
+      <div className="flex justify-center mt-4 sm:mt-6 gap-1.5 sm:gap-2 flex-shrink-0">
         {experienceData.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={cn(
-              "w-2 h-2 rounded-full transition-all duration-300 bg-white/10 backdrop-blur-sm border border-white/20",
+              "w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full transition-all duration-300 bg-white/10 backdrop-blur-sm border border-white/20",
               index === currentIndex
                 ? "bg-primary border-primary purple-glow-hover-subtle"
                 : "hover:bg-white/20"

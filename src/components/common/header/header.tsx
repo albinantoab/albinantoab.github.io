@@ -120,7 +120,7 @@ export const Header = ({ onClickCallback }: HeaderProps) => {
     <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
       <nav
         className={cn(
-          "flex items-center justify-between gap-5 px-3 py-2 rounded-md transition-all duration-300 ease-in-out",
+          "flex items-center justify-between gap-3 sm:gap-5 px-2 sm:px-3 py-2 rounded-md transition-all duration-300 ease-in-out min-w-0",
           isScrolled
             ? "backdrop-blur-xl bg-white/5 border border-white/20 shadow-2xl"
             : "backdrop-blur-md"
@@ -137,19 +137,25 @@ export const Header = ({ onClickCallback }: HeaderProps) => {
         {/* Logo/Brand */}
         <button
           onClick={() => handleNavClick("#main")}
-          className="text-sm font-bold text-foreground hover:text-primary transition-colors duration-200 px-2 rounded-xl cursor-pointer"
+          className="text-sm font-bold text-foreground hover:text-primary transition-colors duration-200 px-2 rounded-xl cursor-pointer flex-shrink-0"
         >
-          <Image src="/ab.png" alt="Albin" width={36} height={36} />
+          <Image 
+            src="/ab.png" 
+            alt="Albin" 
+            width={36} 
+            height={36} 
+            className="w-9 h-9 min-w-[36px] min-h-[36px]"
+          />
         </button>
 
         {/* Navigation Items */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 flex-shrink-0">
           {navItems.map((item) => (
             <button
               key={item.name}
               onClick={() => handleNavClick(item.href)}
               className={cn(
-                "relative px-3 py-1.5 text-xs font-medium transition-all duration-200 rounded-md cursor-pointer",
+                "relative px-2 sm:px-3 py-1.5 text-xs font-medium transition-all duration-200 rounded-md cursor-pointer whitespace-nowrap",
                 "hover:text-primary hover:bg-black/10",
                 activeSection === item.href.replace("#", "")
                   ? "text-primary bg-black/15"
