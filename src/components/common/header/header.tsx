@@ -10,26 +10,105 @@ const navItems = [
   { name: "About", href: "#about" },
 ];
 
-export const Header = () => {
+interface HeaderProps {
+  onClickCallback?: (section: string) => void;
+}
+
+export const Header = ({ onClickCallback }: HeaderProps) => {
   const [activeSection, setActiveSection] = useState("main");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const sections = ['main', 'experience', 'projects', 'about'];
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      // Find the scroll container
+      const scrollContainer = document.querySelector('.scroll-snap-container');
+      if (scrollContainer) {
+        setIsScrolled(scrollContainer.scrollTop > 0);
+        
+        // Update active section based on scroll position
+        const viewportHeight = window.innerHeight;
+        const scrollTop = scrollContainer.scrollTop;
+        const currentSectionIndex = Math.round(scrollTop / viewportHeight);
+        const currentSection = sections[currentSectionIndex] || 'main';
+        setActiveSection(currentSection);
+      } else {
+        // Fallback to window scroll if container not found
+        setIsScrolled(window.scrollY > 0);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        
+        const currentIndex = sections.indexOf(activeSection);
+        let nextIndex;
+        
+        if (event.key === 'ArrowDown') {
+          nextIndex = Math.min(currentIndex + 1, sections.length - 1);
+        } else {
+          nextIndex = Math.max(currentIndex - 1, 0);
+        }
+        
+        if (nextIndex !== currentIndex) {
+          const nextSection = sections[nextIndex];
+          const scrollContainer = document.querySelector('.scroll-snap-container');
+          const element = document.getElementById(nextSection);
+          
+          if (scrollContainer && element) {
+            const scrollTop = element.offsetTop;
+            scrollContainer.scrollTo({
+              top: scrollTop,
+              behavior: "smooth"
+            });
+          }
+        }
+      }
+    };
+
+    // Listen to scroll events on the scroll container
+    const scrollContainer = document.querySelector('.scroll-snap-container');
+    if (scrollContainer) {
+      scrollContainer.addEventListener("scroll", handleScroll);
+    } else {
+      // Fallback to window scroll
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    // Listen to keyboard events
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      } else {
+        window.removeEventListener("scroll", handleScroll);
+      }
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeSection]);
 
   const handleNavClick = (href: string) => {
     const section = href.replace("#", "");
-    setActiveSection(section);
+    onClickCallback?.(section);
     
-    // Smooth scroll to section
+    // Find the scroll container and target element
+    const scrollContainer = document.querySelector('.scroll-snap-container');
     const element = document.getElementById(section);
-    if (element) {
+    
+    if (scrollContainer && element) {
+      // Calculate the position of the element relative to the scroll container
+      const scrollTop = element.offsetTop;
+      
+      // Smooth scroll within the container
+      scrollContainer.scrollTo({
+        top: scrollTop,
+        behavior: "smooth"
+      });
+    } else if (element) {
+      // Fallback to regular scrollIntoView
       element.scrollIntoView({
         behavior: "smooth",
         block: "start",

@@ -162,4 +162,25 @@
   .purple-glow-icon-subtle:hover {
     filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.4));
   }
+
+  /* Enhanced scroll snap behavior */
+  .scroll-snap-container {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+  }
+
+  /* Force scroll snap on all scroll events */
+  .scroll-snap-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 }

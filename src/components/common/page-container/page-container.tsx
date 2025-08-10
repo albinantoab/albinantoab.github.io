@@ -6,9 +6,19 @@ interface Circle {
   color: string;
 }
 
-const PageContainer = ({ children }: { children: React.ReactNode }) => {
-  // Shuffled circles positioned around the edges with varied sizes
-  const circles: Circle[] = [
+interface CirclePosition {
+  x: number;
+  y: number;
+}
+
+interface PageContainerProps {
+  children: React.ReactNode;
+  index?: number;
+}
+
+const PageContainer = ({ children, index = 0 }: PageContainerProps) => {
+  // Base circle configuration (colors and sizes remain constant)
+  const baseCircles: Circle[] = [
     {
       id: 1,
       x: 8,
@@ -53,19 +63,62 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
     }
   ];
 
+  // Different position configurations for each index
+  const positionConfigs: CirclePosition[][] = [
+    // Index 0 - Default configuration
+    [
+      { x: 8, y: 68 },
+      { x: 85, y: 15 },
+      { x: 92, y: 80 },
+      { x: 18, y: 5 },
+      { x: 95, y: 45 },
+      { x: 12, y: 140 }
+    ],
+    // Index 1 - Shifted configuration
+    [
+      { x: 15, y: 25 },
+      { x: 75, y: 65 },
+      { x: 25, y: 85 },
+      { x: 85, y: 25 },
+      { x: 5, y: 55 },
+      { x: 90, y: 5 }
+    ],
+    // Index 2 - Alternative configuration
+    [
+      { x: 90, y: 20 },
+      { x: 10, y: 30 },
+      { x: 80, y: 70 },
+      { x: 20, y: 90 },
+      { x: 70, y: 10 },
+      { x: 30, y: 60 }
+    ],
+    // Index 3 - Another variation
+    [
+      { x: 50, y: 10 },
+      { x: 90, y: 40 },
+      { x: 60, y: 85 },
+      { x: 10, y: 70 },
+      { x: 80, y: 25 },
+      { x: 40, y: 50 }
+    ]
+  ];
+
+  // Get current positions based on index, with fallback to default
+  const currentPositions = positionConfigs[index] || positionConfigs[0];
+
   return (
-    <div className="relative w-screen min-h-screen overflow-x-hidden">
-      {/* Background with random circles */}
+    <div className="scroll-snap-container relative w-screen overflow-x-hidden">
+      {/* Background with animated circles */}
       <div className="fixed inset-0 w-full h-full">
-        {circles.map((circle) => (
+        {baseCircles.map((circle, circleIndex) => (
           <div
             key={circle.id}
-            className={`absolute rounded-full opacity-70 ${
+            className={`absolute rounded-full opacity-70 transition-all duration-1000 ease-in-out ${
               circle.id > 2 ? 'hidden md:block' : ''
             }`}
             style={{
-              left: `${circle.x}%`,
-              top: `${circle.y}%`,
+              left: `${currentPositions[circleIndex]?.x || circle.x}%`,
+              top: `${currentPositions[circleIndex]?.y || circle.y}%`,
               width: `${circle.size}px`,
               height: `${circle.size}px`,
               backgroundColor: circle.color,

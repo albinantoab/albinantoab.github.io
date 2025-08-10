@@ -1,4 +1,6 @@
-import { PageContainer } from "@/components/common";
+"use client";
+
+import { Header, PageContainer } from "@/components/common";
 import { Github, Linkedin, Mail } from "lucide-react";
 import {
   ReactIcon,
@@ -31,7 +33,6 @@ const socials = [
     icon: Mail,
   },
 ];
-
 
 const skills = [
   {
@@ -97,71 +98,100 @@ const skills = [
 ];
 
 export default function Home() {
+
   return (
-    <PageContainer>
-      <section id="main" className="flex flex-col items-center justify-center gap-2 min-h-screen relative w-full">
-        <h1 className="text-4xl font-bold">Albin Anto</h1>
-        <p className="text-sm text-muted-foreground tracking-[0.08rem] text-center">
-          Engineering Lead • Crafting Frontend & Mobile Experiences •
-          Product-Focused Engineer
-        </p>
+    <>
+      <Header />
+      <PageContainer>
+        <section
+          id="main"
+          className="scroll-snap-section flex flex-col items-center justify-center gap-2 relative w-full"
+        >
+          <h1 className="text-4xl font-bold">Albin Anto</h1>
+          <p className="text-sm text-muted-foreground tracking-[0.08rem] text-center">
+            Engineering Lead • Crafting Frontend & Mobile Experiences •
+            Product-Focused Engineer
+          </p>
 
-        {/* Socials */}
-        <div className="flex items-center justify-center gap-6 mt-4">
-          {socials.map((social) => (
-            <a
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={social.name}
-            >
-              <social.icon className="w-6 h-6 text-gray-700 hover:text-primary purple-glow-icon" />
-            </a>
-          ))}
-        </div>
-
-        {/* Skills */}
-        <div className="flex items-center justify-center gap-8 mt-4 absolute bottom-[3rem]">
-          {skills.map((skill) => {
-            const IconComponent = skill.icon;
-            return (
-              <div
-                key={skill.name}
-                className={cn(`cursor-pointer p-4 text-gray-300 md:text-gray-800 `, skill.hoverColor)}
-                title={skill.name}
+          {/* Socials */}
+          <div className="flex items-center justify-center gap-6 mt-4">
+            {socials.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={social.name}
               >
-                <a href={skill.link} target="_blank" rel="noopener noreferrer">
-                  <IconComponent
-                    className={`w-4 h-4transition-colors duration-300`}
-                  />
-                </a>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+                <social.icon className="w-6 h-6 text-gray-700 hover:text-primary purple-glow-icon" />
+              </a>
+            ))}
+          </div>
 
-      {/* Placeholder sections for navigation */}
-      <section id="experience" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Experience</h2>
-          <p className="text-muted-foreground">Experience section coming soon...</p>
-        </div>
-      </section>
+          {/* Skills */}
+          <div className="flex items-center justify-center gap-8 mt-4 absolute bottom-[3rem]">
+            {skills.map((skill) => {
+              const IconComponent = skill.icon;
+              return (
+                <div
+                  key={skill.name}
+                  className={cn(
+                    `cursor-pointer p-4 text-gray-300 md:text-gray-800 `,
+                    skill.hoverColor
+                  )}
+                  title={skill.name}
+                >
+                  <a
+                    href={skill.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <IconComponent
+                      className={`w-4 h-4transition-colors duration-300`}
+                    />
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
-      <section id="projects" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Projects</h2>
-          <p className="text-muted-foreground">Projects section coming soon...</p>
-        </div>
-      </section>
+        {/* Placeholder sections for navigation */}
+        <section
+          id="experience"
+          className="scroll-snap-section flex items-center justify-center"
+        >
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Experience</h2>
+            <p className="text-muted-foreground">
+              Experience section coming soon...
+            </p>
+          </div>
+        </section>
 
-      <section id="about" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">About</h2>
-          <p className="text-muted-foreground">About section coming soon...</p>
-        </div>
-      </section>
-    </PageContainer>
+        <section
+          id="projects"
+          className="scroll-snap-section flex items-center justify-center"
+        >
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Projects</h2>
+            <p className="text-muted-foreground">
+              Projects section coming soon...
+            </p>
+          </div>
+        </section>
+
+        <section
+          id="about"
+          className="scroll-snap-section flex items-center justify-center"
+        >
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">About</h2>
+            <p className="text-muted-foreground">
+              About section coming soon...
+            </p>
+          </div>
+        </section>
+      </PageContainer>
+    </>
   );
 }
