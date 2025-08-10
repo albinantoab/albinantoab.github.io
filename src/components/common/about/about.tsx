@@ -10,7 +10,7 @@ export function About() {
       <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">About Me</h2>
       
       <div className="space-y-3 sm:space-y-4 text-left">
-        <div className="text-sm">
+        <div className="text-xs sm:text-sm">
           <p className="mb-3 sm:mb-4">
             Hi, I&apos;m <span className="font-semibold text-primary">Albin Anto</span>, an Engineering Lead at 314e with over <span className="font-semibold text-primary">{yearsOfExperience}+ years</span> of experience in software development.
           </p>
