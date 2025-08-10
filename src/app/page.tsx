@@ -1,6 +1,6 @@
 "use client";
 
-import { Header, PageContainer } from "@/components/common";
+import { Header, PageContainer, Experience, About } from "@/components/common";
 import { Github, Linkedin, Mail } from "lucide-react";
 import {
   ReactIcon,
@@ -128,7 +128,7 @@ export default function Home() {
           </div>
 
           {/* Skills */}
-          <div className="flex items-center justify-center gap-8 mt-4 absolute bottom-[3rem]">
+          <div className="flex items-center justify-center gap-8 mt-4 absolute bottom-[3rem] w-full overflow-x-auto scrollbar-hide">
             {skills.map((skill) => {
               const IconComponent = skill.icon;
               return (
@@ -155,20 +155,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Placeholder sections for navigation */}
+        {/* Experience section */}
         <section
           id="experience"
           className="scroll-snap-section flex items-center justify-center"
         >
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Experience</h2>
-            <p className="text-muted-foreground">
-              Experience section coming soon...
-            </p>
-          </div>
+          <Experience />
         </section>
 
-        <section
+        {/* <section
           id="projects"
           className="scroll-snap-section flex items-center justify-center"
         >
@@ -178,18 +173,13 @@ export default function Home() {
               Projects section coming soon...
             </p>
           </div>
-        </section>
+        </section> */}
 
         <section
           id="about"
           className="scroll-snap-section flex items-center justify-center"
         >
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">About</h2>
-            <p className="text-muted-foreground">
-              About section coming soon...
-            </p>
-          </div>
+          <About />
         </section>
       </PageContainer>
     </>

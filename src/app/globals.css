@@ -168,19 +168,61 @@
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     overflow-y: scroll;
-    height: 100vh;
+    height: 100dvh;
     -webkit-overflow-scrolling: touch;
   }
 
   .scroll-snap-section {
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   /* Force scroll snap on all scroll events */
   .scroll-snap-container::-webkit-scrollbar {
     width: 0px;
     background: transparent;
+  }
+
+  /* Infinite scroll animation for skills */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+
+  /* Pause animation on hover for better UX */
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  /* Responsive animation speed */
+  @media (max-width: 768px) {
+    .animate-scroll {
+      animation-duration: 15s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .animate-scroll {
+      animation-duration: 12s;
+    }
+  }
+
+  /* Hide scrollbar while maintaining scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
   }
 }

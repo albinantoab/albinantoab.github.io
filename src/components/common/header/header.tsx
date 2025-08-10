@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const navItems = [
   { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
+  // { name: "Projects", href: "#projects" },
   { name: "About", href: "#about" },
 ];
 
@@ -19,7 +19,7 @@ export const Header = ({ onClickCallback }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const sections = ['main', 'experience', 'projects', 'about'];
+    const sections = ['main', 'experience', 'about'];
     
     const handleScroll = () => {
       // Find the scroll container
