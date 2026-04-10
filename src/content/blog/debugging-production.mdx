@@ -1,0 +1,49 @@
+---
+title: "A framework for debugging production issues"
+description: "The mental model I use when something breaks in production and everyone is watching."
+date: "2026-04-01"
+tags: ["engineering", "debugging"]
+---
+
+Production incidents are stressful. There's pressure to fix things fast, multiple people asking for updates, and the temptation to try random things until something works. Over the years, I've developed a framework that keeps me calm and effective.
+
+## Step 1: Reproduce, don't guess
+
+The single biggest mistake I see engineers make is jumping to solutions before they understand the problem. Resist the urge. Your first job is to reproduce the issue reliably.
+
+If you can't reproduce it, you can't verify your fix. You're just guessing.
+
+## Step 2: Narrow the blast radius
+
+Before you debug, contain the damage. Can you feature-flag it off? Roll back the deploy? Redirect traffic? The goal is to stop the bleeding while you investigate.
+
+A quick mitigation buys you time to find the real fix instead of shipping a panic patch.
+
+## Step 3: Gather evidence, then form hypotheses
+
+Look at what changed recently:
+
+- **Deployments** — what shipped in the last 24 hours?
+- **Dependencies** — did anything upstream change?
+- **Traffic patterns** — is this load-related?
+- **Error logs** — what's the actual stack trace?
+
+Form a hypothesis based on evidence, not intuition. "It's probably the database" is not a hypothesis. "The connection pool is exhausted because the new query doesn't have a timeout" is.
+
+## Step 4: Verify before you ship
+
+Once you have a fix, test it against the reproduction case from step 1. Don't skip this because you're in a hurry. A bad fix on top of a production issue makes everything worse.
+
+## Step 5: Write the postmortem
+
+Not because someone told you to. Because future-you will encounter a similar issue and wish you'd written down what happened.
+
+A good postmortem answers three questions:
+
+1. What happened?
+2. Why did it happen?
+3. What will we do to prevent it?
+
+---
+
+The engineers I trust most in an incident aren't the fastest — they're the most methodical. Speed comes from having a good process, not from panicking faster.

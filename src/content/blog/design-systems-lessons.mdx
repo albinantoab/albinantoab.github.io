@@ -1,0 +1,46 @@
+---
+title: "What I learned building a design system from scratch"
+description: "Three years of building and maintaining a design system at scale — the decisions that paid off and the ones that didn't."
+date: "2026-04-08"
+tags: ["engineering", "frontend"]
+---
+
+When I joined Appsmith in 2021, the codebase had the usual problem — every component looked slightly different. Buttons had three different padding values. Colours were hardcoded in dozens of places. Spacing was a suggestion, not a system.
+
+So we built a design system. Here's what I'd do differently.
+
+## Start with tokens, not components
+
+Our first instinct was to build components — buttons, inputs, modals. That was backwards. We should have started with design tokens: colour, spacing, typography, and elevation scales.
+
+Without tokens, every component becomes its own island of decisions. With tokens, components become compositions of shared primitives.
+
+## The API surface is the product
+
+A component library lives or dies by its API. Every prop you add is a promise you're making to every consumer. We learned this the hard way when a "simple" prop addition to our Button component cascaded into breaking changes across 40+ consumers.
+
+Rules we eventually adopted:
+
+- **Fewer props, more composition** — instead of a `leftIcon` prop, accept `children`
+- **Variants over booleans** — `variant="primary"` is better than `isPrimary`
+- **Sensible defaults** — 80% of usage shouldn't need to pass any props
+
+## Accessibility isn't a feature, it's a constraint
+
+We treated accessibility as something to add later. That was a mistake. Retrofitting ARIA attributes and keyboard navigation into existing components is painful and error-prone.
+
+The components that were accessible from day one were always the ones with the fewest bugs.
+
+## Adoption is harder than building
+
+The best design system is useless if nobody uses it. We spent months building components that engineers ignored because:
+
+1. They didn't know they existed
+2. They didn't quite fit the use case
+3. The migration path from the old code was unclear
+
+Documentation, migration guides, and internal advocacy matter as much as the code itself.
+
+---
+
+If I were starting over, I'd spend the first month on tokens and documentation, not components. The foundation matters more than the features.
