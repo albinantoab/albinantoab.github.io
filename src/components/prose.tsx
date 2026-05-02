@@ -10,10 +10,7 @@ export function Prose({
   return (
     <div
       className={cn(
-        // Mobile: 16px font, 1.5 line-height
-        "text-base leading-normal",
-        // Desktop: 18px font, 1.6 line-height
-        "md:text-lg md:leading-[1.6]",
+        "text-base leading-[1.55] md:text-[19px] md:leading-[1.65] text-ink-2",
         className
       )}
     >

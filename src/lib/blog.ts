@@ -11,13 +11,24 @@ export interface BlogPost {
   date: string
   tags: string[]
   content: string
+  minutes: number
+  n: string
+}
+
+function readingMinutes(content: string): number {
+  const words = content.trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 200))
+}
+
+function pad(i: number): string {
+  return String(i + 1).padStart(3, "0")
 }
 
 export function getAllPosts(): BlogPost[] {
   if (!fs.existsSync(BLOG_DIR)) return []
 
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"))
-  const posts = files.map((file) => {
+  const parsed = files.map((file) => {
     const slug = file.replace(".mdx", "")
     const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8")
     const { data, content } = matter(raw)
@@ -28,24 +39,15 @@ export function getAllPosts(): BlogPost[] {
       date: data.date ?? "",
       tags: data.tags ?? [],
       content,
+      minutes: readingMinutes(content),
     }
   })
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+  return parsed
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((p, i) => ({ ...p, n: pad(i) }))
 }
 
 export function getPost(slug: string): BlogPost | null {
-  const file = path.join(BLOG_DIR, `${slug}.mdx`)
-  if (!fs.existsSync(file)) return null
-  const raw = fs.readFileSync(file, "utf-8")
-  const { data, content } = matter(raw)
-  return {
-    slug,
-    title: data.title ?? "Untitled",
-    description: data.description ?? "",
-    date: data.date ?? "",
-    tags: data.tags ?? [],
-    content,
-  }
+  const posts = getAllPosts()
+  return posts.find((p) => p.slug === slug) ?? null
 }

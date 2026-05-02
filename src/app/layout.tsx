@@ -1,15 +1,20 @@
 import type { Metadata } from "next"
-import { IBM_Plex_Sans } from "next/font/google"
+import { Newsreader, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
 import "./globals.css"
 
-const font = IBM_Plex_Sans({
+const serif = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-ibm-plex",
+  variable: "--font-newsreader",
+  display: "swap",
+})
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
   display: "swap",
 })
 
@@ -30,7 +35,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={font.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${serif.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen flex flex-col bg-background text-foreground antialiased">
         <ThemeProvider>
           <a

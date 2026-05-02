@@ -9,14 +9,14 @@ export function Nav() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-sm border-b border-border">
+    <header className="border-b border-border">
       <nav
-        className="mx-auto max-w-2xl px-6 h-14 flex items-center justify-between"
+        className="mx-auto max-w-[720px] px-8 py-7 flex items-center justify-between"
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="text-lg font-bold tracking-tight hover:opacity-80 transition-opacity"
+          className="text-[21px] font-medium tracking-[-0.01em] leading-none hover:opacity-80 transition-opacity"
         >
           Albin
         </Link>
@@ -24,10 +24,10 @@ export function Nav() {
           <Link
             href="/about"
             className={cn(
-              "px-3 py-2 text-sm rounded-md transition-colors hover:bg-muted",
+              "px-2.5 py-1.5 font-mono text-[13.5px] rounded-md transition-colors hover:bg-[var(--tag-bg)]",
               pathname === "/about"
                 ? "text-foreground"
-                : "text-muted-foreground"
+                : "text-ink-3"
             )}
           >
             About

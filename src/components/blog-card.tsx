@@ -1,66 +1,40 @@
 import Link from "next/link"
 import type { BlogPost } from "@/lib/blog"
-import { formatDate } from "@/lib/format"
 import { Tag } from "@/components/tag"
-import { Prose } from "@/components/prose"
 
-interface BlogCardProps {
-  post: BlogPost
-  featured?: boolean
-}
-
-export function BlogCard({ post, featured }: BlogCardProps) {
-  if (featured) {
-    return (
-      <article className="group">
-        <Link href={`/blog/${post.slug}`} className="block space-y-2">
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+export function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <article className="group relative transition-transform duration-[250ms] ease-[cubic-bezier(.2,.7,.2,1)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+      <span className="pointer-events-none absolute -top-[7px] left-[22px] z-10 bg-background px-1.5 font-mono text-[10px] tracking-[0.04em] text-ink-4 tabular-nums">
+        {post.n}
+      </span>
+      <Link
+        href={`/blog/${post.slug}`}
+        className="block rounded-[10px] border border-border bg-card px-[26px] py-[22px] transition-[border-color,box-shadow] duration-200 ease-out group-hover:border-ink-4 group-hover:shadow-[0_6px_24px_-16px_rgba(0,0,0,0.25)]"
+      >
+        <div className="flex min-w-0 flex-col gap-2">
+          <h3
+            className="m-0 text-[21px] font-medium leading-[1.25] tracking-[-0.015em] transition-colors duration-200 group-hover:text-primary"
+            style={{ textWrap: "pretty" }}
+          >
             {post.title}
           </h3>
-          <p className="text-sm text-muted-foreground">
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-          </p>
           {post.description && (
-            <Prose>
-              <p>{post.description}</p>
-            </Prose>
+            <p
+              className="m-0 text-[15px] leading-[1.55] text-ink-3"
+              style={{ textWrap: "pretty" }}
+            >
+              {post.description}
+            </p>
           )}
           {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="mt-1 flex flex-wrap gap-1.5">
               {post.tags.map((tag) => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
           )}
-        </Link>
-      </article>
-    )
-  }
-
-  return (
-    <article className="group">
-      <Link
-        href={`/blog/${post.slug}`}
-        className="block py-3 -mx-3 px-3 rounded-md hover:bg-muted/50 transition-colors"
-      >
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="group-hover:text-primary transition-colors">
-            {post.title}
-          </span>
-          <time
-            dateTime={post.date}
-            className="text-sm text-muted-foreground shrink-0 tabular-nums"
-          >
-            {formatDate(post.date)}
-          </time>
         </div>
-        {post.tags.length > 0 && (
-          <div className="flex gap-2 mt-1">
-            {post.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
-          </div>
-        )}
       </Link>
     </article>
   )
