@@ -1,0 +1,49 @@
+---
+title: The 4-Second Tax
+description: How an unnoticed UX friction quietly cost one team 7.5 working days per person, per year.
+date: 2026-05-02
+tags: [product, ux, engineering]
+---
+
+**Users weren't complaining. They were just zooming.**
+
+That's the line I keep landing on whenever I think back on this one. It wasn't a feature request. It wasn't a bug report. It was a small, repetitive motion, a habit so embedded in everyone's workflow that nobody thought to mention it, and that took us months to actually see.
+
+## The setup
+
+The product was a PDF extraction flow, fairly standard human-in-the-loop work. A document gets uploaded, our model parses out the structured values, and those extracted values show up in the right sidebar for review. The user's job is to read the original PDF, check what the model pulled, and correct anything that's off. It isn't glamorous work, but it's the load-bearing piece of the entire pipeline; if the validation step is slow, the whole system is slow.
+
+People run these tasks back-to-back, sometimes for hours at a stretch. A focused session might mean fifteen tasks in thirty minutes: open, validate, submit, next.
+
+The PDFs themselves rendered at fit-to-page. On most documents, that left the text just small enough to be uncomfortable, especially for the dense, multi-column forms that made up the bulk of the workload. So the very first thing every user did, on every task, was zoom in. A scroll, a click, a small adjustment to find a comfortable reading size, maybe four seconds before the page was actually usable.
+
+Nobody filed a ticket for it. It wasn't a bug; it was just how the tool worked.
+
+## The math nobody did
+
+I only started paying attention after spending an afternoon going through PostHog session replays. The pattern jumped out almost immediately. The first thing every user did when a task loaded was reach for the zoom, without thinking, without hesitation. Then they'd do it on the next one, and the next, replay after replay. The behavior was so uniform across users that it stopped looking like a preference and started looking like a workaround. They had all stopped noticing they were doing it.
+
+So I did the math.
+
+- **4 seconds** per task
+- **15 tasks** per 30-minute session → 1 minute lost
+- A full workday → 16 minutes
+- A week → 80 minutes
+- A month → 5 hours
+- A year → **~60 hours, or 7.5 working days**
+
+Per person. The team is three, which works out to nearly a month of paid work every year, quietly bleeding out through a mouse wheel. None of it ever showed up in a roadmap doc, a stakeholder ask, or a customer interview. It only shows up if you sit with the actual workflow and watch what people do with their hands.
+
+## The fix
+
+The implementation took ten minutes. Store the user's last zoom level in localStorage, read it back on the next load, and apply it before the PDF renders. No new UI, no settings page, no training. The first time you zoom in, the app remembers, and every subsequent task opens at your size.
+
+We chose localStorage over syncing it server-side because the friction wasn't account-level, it was device-level. People work from the same machine most of the time, and a server round-trip would have added latency to a flow we were specifically trying to make faster. Sometimes the simplest place to put state is exactly where the user already is.
+
+There was nothing clever about the code. The cleverness was noticing it at all.
+
+## What I keep coming back to
+
+Friction that never gets reported is still friction. Users adapt silently — they don't file tickets for "I always have to do this small thing." They absorb it into their flow until it disappears from their conscious mind.
+
+The most valuable fixes are often the ones nobody asked for. To find them, watch what people _do_, not what they _say_.
