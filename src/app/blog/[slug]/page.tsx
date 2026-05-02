@@ -3,8 +3,8 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import remarkGfm from "remark-gfm"
+import rehypePrettyCode from "rehype-pretty-code"
 import { getAllPosts, getPost } from "@/lib/blog"
-import { formatDate } from "@/lib/format"
 import { Tag } from "@/components/tag"
 
 interface Props {
@@ -47,16 +47,8 @@ export default async function BlogPost({ params }: Props) {
       </Link>
 
       <header className="mt-6">
-        <div className="flex items-center gap-3.5 font-mono text-[11.5px] tracking-[0.02em] text-ink-3">
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-          <span aria-hidden="true">·</span>
-          <span>{post.minutes} min read</span>
-          <span aria-hidden="true">·</span>
-          <span className="tabular-nums">{post.n}</span>
-        </div>
-
         <h1
-          className="mt-3.5 mb-4 text-[38px] font-medium leading-[1.15] tracking-[-0.02em]"
+          className="mb-4 text-[38px] font-medium leading-[1.15] tracking-[-0.02em]"
           style={{ textWrap: "pretty" }}
         >
           {post.title}
@@ -77,6 +69,15 @@ export default async function BlogPost({ params }: Props) {
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: { light: "github-light", dark: "github-dark" },
+                    keepBackground: false,
+                  },
+                ],
+              ],
             },
           }}
         />

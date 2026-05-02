@@ -4,14 +4,6 @@ import { BlogCard } from "@/components/blog-card"
 export default function Home() {
   const posts = getAllPosts()
 
-  if (posts.length === 0) {
-    return (
-      <div className="mx-auto max-w-[720px] px-8 py-16">
-        <p className="text-ink-3">No posts yet. Check back soon.</p>
-      </div>
-    )
-  }
-
   return (
     <div className="mx-auto max-w-[720px] px-8 pt-10 pb-6">
       <h2
@@ -20,11 +12,15 @@ export default function Home() {
       >
         Product engineer building software end to end. Writing about what I learn along the way.
       </h2>
-      <div className="flex flex-col gap-3.5">
-        {posts.map((post) => (
-          <BlogCard key={post.slug} post={post} />
-        ))}
-      </div>
+      {posts.length === 0 ? (
+        <p className="text-ink-3">No posts yet. Check back soon.</p>
+      ) : (
+        <div className="flex flex-col gap-3.5">
+          {posts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

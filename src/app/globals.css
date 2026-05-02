@@ -200,6 +200,64 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
+/* Code blocks — rehype-pretty-code + Shiki */
+.prose :where(code):not(:where([class~="not-prose"] *, pre code)) {
+  background: var(--muted);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-weight: 500;
+}
+.prose :where(code):not(:where([class~="not-prose"] *, pre code))::before,
+.prose :where(code):not(:where([class~="not-prose"] *, pre code))::after {
+  content: "";
+}
+.prose :where(pre):not(:where([class~="not-prose"] *)) {
+  background: var(--card);
+  border: 1px solid var(--border-visible);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 1.4em 0;
+}
+.prose :where(pre code):not(:where([class~="not-prose"] *)) {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: 400;
+  display: grid;
+}
+.prose :where(pre code [data-line]):not(:where([class~="not-prose"] *)) {
+  padding: 0 0.25rem;
+}
+html.dark .prose :where(code[data-theme="light"]),
+html.dark .prose :where(code[data-theme="light"]) span,
+html.dark .prose :where(pre[data-theme="light"]),
+html.dark .prose :where(pre[data-theme="light"]) span {
+  display: none;
+}
+html:not(.dark) .prose :where(code[data-theme="dark"]),
+html:not(.dark) .prose :where(code[data-theme="dark"]) span,
+html:not(.dark) .prose :where(pre[data-theme="dark"]),
+html:not(.dark) .prose :where(pre[data-theme="dark"]) span {
+  display: none;
+}
+html.dark .prose :where(span[data-line]) {
+  color: var(--shiki-dark);
+}
+html:not(.dark) .prose :where(span[data-line]) {
+  color: var(--shiki-light);
+}
+html.dark .prose :where(code) span {
+  color: var(--shiki-dark);
+}
+html:not(.dark) .prose :where(code) span {
+  color: var(--shiki-light);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -11,13 +11,7 @@ export interface BlogPost {
   date: string
   tags: string[]
   content: string
-  minutes: number
   n: string
-}
-
-function readingMinutes(content: string): number {
-  const words = content.trim().split(/\s+/).filter(Boolean).length
-  return Math.max(1, Math.round(words / 200))
 }
 
 function pad(i: number): string {
@@ -39,7 +33,6 @@ export function getAllPosts(): BlogPost[] {
       date: data.date ?? "",
       tags: data.tags ?? [],
       content,
-      minutes: readingMinutes(content),
     }
   })
   return parsed
